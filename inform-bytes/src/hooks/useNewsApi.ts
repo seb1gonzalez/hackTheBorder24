@@ -1,20 +1,26 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import NewsAPI, { INewsApiEverythingParams, INewsApiResponse } from 'ts-newsapi';
 import { NEWS_API_KEY } from "../env_vars/newsAPI";
+import testDataJson from './testData.json';
 
 const newsAPI = new NewsAPI(NEWS_API_KEY ?? '');
 
 const useNewsApi = (query: INewsApiEverythingParams) => {
     const [newsResults, setNewsResults] = useState<INewsApiResponse>();
+
+    useEffect(() => {
         // NEWS API CALL
         // Search through millions of articles from over 50,000 large and small news sources and blogs.
-        if(!newsResults){
-        newsAPI.getEverything(query).then(res => {
-            setNewsResults(res);
-            console.log(res);
-        });
-    }
-
+        // newsAPI.getEverything(query).then(res => {
+        //     if (res.status === 'error') {
+        //         setNewsResults(testDataJson as INewsApiResponse);
+        //         return;
+        //     }
+        //     setNewsResults(res);
+        setNewsResults(testDataJson as INewsApiResponse)
+        // });
+    },[query])
+ 
 
   return newsResults;
 }
